@@ -1,3 +1,13 @@
+# Panduan clone repository untuk Collaborator
+1. Clone repository ini
+```bash
+git clone https://github.com/ZulfiFazhar/PSD-UAS-IF1-FOLIUM.git
+```
+2. Masuk ke folder PSD-UAS-IF1-FOLIUM
+```bash
+cd PSD-UAS-IF1-FOLIUM
+```
+
 # Panduan push code ke github
 1. Pindah ke branch yang sudah disediakan sesuai dengan nama kalian, dengan list branch sebagai berikut:<br>
 > main, irsyad, zulfi, mutiara, alif, izza
