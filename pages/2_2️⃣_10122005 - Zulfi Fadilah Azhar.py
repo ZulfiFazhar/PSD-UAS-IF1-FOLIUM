@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import folium
 
 from utils import init
 from wordcloud import WordCloud
@@ -16,6 +15,7 @@ state_count = pd.read_csv('dataset/zulfi-state_count.csv')
 cust_city_sp = pd.read_csv('dataset/zulfi-cust_city_sp.csv')
 top5_cust_city = pd.read_csv('dataset/zulfi-top5_cust_city_sp.csv')
 
+# Pre-processing data
 state_count = state_count.head(5)
 state_count['Negara Bagian'] = ['São Paulo', 'Minas Gerais', 'Rio de Janeiro', 'Rio Grande do Sul', 'Paraná']
 state_count = state_count.reindex(columns=['state', 'Negara Bagian', 'count'])
@@ -31,8 +31,8 @@ def state_count_visualization(df):
     plt.figure(figsize=(12, 8))
     barplot = sns.barplot(x='Negara Bagian', y='count', data=df, palette='viridis')
 
-    plt.xlabel('Jumlah Pembelian')
-    plt.ylabel('State')
+    plt.xlabel('State')
+    plt.ylabel('Jumlah Pembelian')
     plt.title('Aktifitas pembelian di berbagai state')
 
     for p in barplot.patches:
@@ -113,7 +113,7 @@ def wordcloud_view(df):
     Analisis yang lebih mendalam menunjukan bahwa di antara kota-kota di State of São Paulo, kota Sao Paulo lah yang paling menonjol sebagai pusat utama aktifitas transaksi dengan total sebanyak 762.024 transaksi. Hal ini menunjukan bahwa 19,63% transaksi di State of São Paulo berasal dari kota Sao Paulo. Lalu di posisi selanjutnya terdapat kota Santos dengan total transaksi sebanyak 134.971 transaksi atau 3,48%.                 
 ''')
 
-
+# Pembuatan UI
 st.title("10122005 - Zulfi Fadilah Azhar")
 
 st.header("Sales Dashboard")
