@@ -7,32 +7,45 @@ st.set_page_config(page_title="Alif", page_icon="4️⃣", layout="wide")
 
 init()
 
-st.title("Alif Vidya Kusumah")
+st.title("Alif Vidya Kusumah - 10122029")
 
 st.write(
     """
-        #### Informasi yang akan disampaikan pada dashboard ini adalah tentang perbandingan berat produk antara pengiriman yang mengalami keterlambatan dan dengan yang tidak mengalami tidak keterlambatan
-"""
+    #### Informasi yang akan disampaikan pada dashboard ini adalah tentang perbandingan berat produk antara pengiriman yang mengalami keterlambatan dengan yang tidak mengalami keterlambatan
+    """
 )
 with st.expander("Kegunaan dari informasi ini"):
-    st.write('''Informasi perbandingan berat produk antara pengiriman yang mengalami keterlambatan dan yang tidak mengalami keterlambatan memiliki kegunaan yang potensial dalam mengevaluasi efisiensi dan kualitas layanan logistik. Dengan membandingkan berat produk pada kedua kondisi pengiriman tersebut, perusahaan dapat mengidentifikasi potensi masalah atau kesalahan yang mungkin terjadi selama proses pengiriman yang mengalami keterlambatan. Informasi ini dapat digunakan sebagai indikator kinerja logistik, membantu perusahaan untuk meningkatkan manajemen rantai pasok dan mengoptimalkan proses pengiriman guna mengurangi kemungkinan terjadinya keterlambatan di masa mendatang. Selain itu, perbandingan berat produk juga dapat memberikan wawasan tentang keandalan dan ketepatan waktu pihak pengiriman, yang dapat menjadi dasar untuk pengambilan keputusan yang lebih baik dalam pemilihan mitra logistik. ''')
+    st.write('''Perbandingan berat produk antara pengiriman yang terlambat dan tidak terlambat krusial untuk menilai kualitas layanan penjual dan kurir dalam hal pengiriman. Informasi ini juga membantu memahami urgensi perbaikan sistem pengiriman, terutama dalam konteks ketepatan waktu yang sangat penting bagi pelanggan. Analisis berat produk menjadi landasan evaluasi yang memungkinkan pengurangan keterlambatan pengiriman dan peningkatan kepuasan pelanggan.''')
 
-
+# Load data
 prod_ords_df = pd.read_csv('dataset/alif-prod_ords_df.csv')
 
+# Menampilkan dataframe
 st.dataframe(prod_ords_df)
 
+# Menambahkan garis pemisah
 st.write('<hr>', unsafe_allow_html=True)
 
+st.header('Grafik Perbandingan Rata-Rata Berat Produk Dalam Pengiriman')
+
+# Menghitung rata-rata berat produk untuk pengiriman terlambat
 weight_late_delivered_mean = prod_ords_df[prod_ords_df['late_delivered']
                                           == True]['product_weight_g'].mean()
-st.write(
-    f'Rata-rata berat produk yang mengalami keterlambatan pengiriman : {weight_late_delivered_mean:.2f}')
+
+# Menghitung rata-rata berat produk untuk pengiriman tepat waktu atau tidak terlambat
 weight_notlate_delivered_mean = prod_ords_df[prod_ords_df['late_delivered']
                                              == False]['product_weight_g'].mean()
-st.write(
-    f'Rata-rata berat produk yang tidak mengalami keterlambatan pengiriman : {weight_notlate_delivered_mean:.2f}')
 
+# Menampilkan informasi rata-rata berat produk dalam tabel
+avg_weight_data = {
+    'Status Pengiriman': ['Pengiriman Terlambat', 'Pengiriman Tidak Terlambat'],
+    'Rata-Rata Berat Produk (gram)': [weight_late_delivered_mean, weight_notlate_delivered_mean]
+}
+
+avg_weight_df = pd.DataFrame(avg_weight_data)
+st.table(avg_weight_df)
+
+# Menampilkan grafik perbandingan rata-rata berat produk
 plt.figure(figsize=(6, 5))
 bar_heights = [weight_late_delivered_mean, weight_notlate_delivered_mean]
 bar_labels = ['Pengiriman Terlambat', 'Pengiriman Tidak Terlambat']
@@ -41,9 +54,15 @@ plt.title('Perbandingan Rata-Rata Berat Produk')
 plt.xlabel('Status Pengiriman')
 plt.ylabel('Rata-Rata Berat Produk (gram)')
 plt.ylim(0, max(bar_heights) + 200)
+
+# Menambahkan label pada bar
 for i, height in enumerate(bar_heights):
     plt.text(i, height + 50, f'{height:.2f}', ha='center')
-plt.show()
+
+# Menampilkan grafik menggunakan streamlit
 st.pyplot(plt)
+
+# Menambahkan penjelasan dari grafik
 with st.expander("Penjelasan dari grafik ini"):
-    st.write('''Berdasarkan analisis rata-rata yang telah dilakukan, terlihat bahwa terdapat perbedaan rata-rata berat produk antara pengiriman yang mengalami keterlambatan dengan yang tidak. Rata-rata berat produk pada pengiriman yang terlambat cenderung lebih tinggi dengan total 2471.68 dibandingkan dengan pengiriman yang tepat waktu atau tidak terlambat dengan total 2069.27, dapat diasumsikan bahwa adanya hubungan antara berat produk dengan keterlambatan pengiriman.''')
+    st.write(
+        "Berdasarkan analisis data, ditemukan bahwa jumlah pengiriman yang mengalami keterlambatan memiliki rata-rata berat produk sebesar 2471.68, sementara pengiriman yang tidak terlambat memiliki rata-rata berat produk sebesar 2069.27. Temuan ini menunjukkan adanya korelasi atau pengaruh antara berat produk dan keterlambatan pengiriman. Rata-rata berat produk yang lebih tinggi pada pengiriman yang terlambat mengindikasikan bahwa berat produk dapat menjadi faktor yang mempengaruhi tingkat keterlambatan dalam proses pengiriman. Interpretasi ini dapat menjadi dasar untuk langkah-langkah perbaikan dalam manajemen logistik guna mengoptimalkan efisiensi pengiriman dan mengurangi kemungkinan keterlambatan di masa mendatang.")
