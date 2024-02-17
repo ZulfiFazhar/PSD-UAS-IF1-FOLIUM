@@ -20,6 +20,10 @@ state_count = state_count.head(5)
 state_count['Negara Bagian'] = ['São Paulo', 'Minas Gerais', 'Rio de Janeiro', 'Rio Grande do Sul', 'Paraná']
 state_count = state_count.reindex(columns=['state', 'Negara Bagian', 'count'])
 
+cust_city_state = cust_city_sp['customer_city'].value_counts()
+cust_df = pd.DataFrame(cust_city_state)
+cust_df.reset_index(inplace=True)
+
 # membuat function untuk dipanggil nanti
 def state_count_visualization(df):
     plt.figure(figsize=(12, 8))
@@ -38,14 +42,6 @@ def state_count_visualization(df):
 
     return st.pyplot(plt)
 
-st.title("10122005 - Zulfi Fadilah Azhar")
-
-st.header("Sales Dashboard")
-
-st.write('''
-    Dashboard ini berisi informasi penjualan dari negara Brazil. Dari negara tersebut dicari state mana yang memiliki penjualan tertinggi.
-''')
-
 def state_view():
     st.subheader('Data Overview')
 
@@ -56,7 +52,7 @@ def state_view():
         
     with col2:
         st.write('''
-    Tabel ini menunjukkan jumlah transaksi yang terjadi di berbagai negara bagian. Berikut adalah penjelasan lebih lanjut:
+    Data ini menunjukkan jumlah transaksi yang terjadi di berbagai negara bagian. Berikut adalah penjelasan lebih lanjut:
 
     - SP: Memiliki jumlah transaksi terbanyak, yaitu 3,878,927 transaksi.
     - MG: Berada di posisi kedua dengan 2,224,871 transaksi.
@@ -72,5 +68,57 @@ def state_view():
     state_count_visualization(state_count)
 
     st.write(''' 
-    Dari hasil visualisasi didapati bahwa State of São Paulo merupakan state dengan aktifitas transaksi terbanyak, dengan total sebanyak 3.878.927 (3 juta) transaksi. Langkah yang dapat dilakukan selanjutnya ialah dengan menjadikan state ini sebagai fokus pemasaran lebih mendalam. Karena state ini memiliki 40% aktifitas transaksi dari total 10.328.006 (10 juta) transaksi yang terjadi di Brazil.
+    Dari hasil visualisasi didapati bahwa **State of São Paulo** merupakan state dengan aktifitas transaksi terbanyak, dengan total sebanyak 3.878.927 (3 juta) transaksi. Langkah yang dapat dilakukan selanjutnya ialah dengan menjadikan state ini sebagai fokus pemasaran lebih mendalam. Karena state ini memiliki 40% aktifitas transaksi dari total 10.328.006 (10 juta) transaksi yang terjadi di Brazil.
     ''')
+
+def wordcloud_view(df):
+    st.subheader('Data Overview')
+
+    col1, col2 = st.columns([1,2])
+
+    with col1:
+        st.dataframe(df.head(10).rename(columns={'customer_city' : 'Kota di State Sao Paulo', 'count' : 'Jumlah Transaksi'}))
+        
+    with col2:
+        st.write('''
+    Tabel ini menunjukkan jumlah transaksi yang terjadi di berbagai kota dari State of Paulo. Berikut adalah penjelasan lebih lanjut:
+
+    - Sao Paulo: Kota dengan jumlah transaksi terbanyak, yaitu 762,024 transaksi.
+    - Santos: Berada di posisi kedua dengan 134,971 transaksi.
+    - Campinas: Berada di posisi ketiga dengan 125,935 transaksi.
+    - Santo Andre: Memiliki 115,599 transaksi.
+    - Sao Bernardo do Campo: Memiliki 94,044 transaksi.
+    - Guarulhos: Memiliki 79,698 transaksi.
+    - Sao Jose dos Campos: Memiliki 78,494 transaksi.
+    - Jundiai: Memiliki 74,314 transaksi.
+    - Ribeirao Preto: Memiliki 65,141 transaksi.
+    - Sorocaba: Memiliki 62,513 transaksi.
+    ''')
+        
+    st.write('Dengan data ini, kita dapat melihat bahwa Sao Paulo adalah kota dengan aktivitas transaksi tertinggi, diikuti oleh Santos dan Campinas. Sementara itu, kota-kota lainnya memiliki jumlah transaksi yang lebih rendah dibandingkan tiga kota teratas.')
+
+def wordcloud_visualization(df):
+    plt.figure(figsize=(10, 5))
+    plt.imshow(customer_wordcloud, interpolation='bilinear')
+    plt.axis('off')
+    plt.show()
+
+st.title("10122005 - Zulfi Fadilah Azhar")
+
+st.header("Sales Dashboard")
+
+st.write('''
+    Dashboard ini berisi informasi penjualan dari negara Brazil. Dari negara tersebut dicari state mana yang memiliki penjualan tertinggi.
+''')
+
+tab1, tab2, tab3 = st.tabs(["State Visualization", "WordCloud", "Owl"])
+
+with tab1:
+    state_view()
+
+with tab2:
+   wordcloud_view(cust_df)
+
+with tab3:
+   st.header("An owl")
+   st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
