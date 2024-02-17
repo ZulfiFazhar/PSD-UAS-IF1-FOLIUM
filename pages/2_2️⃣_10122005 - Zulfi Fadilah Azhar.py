@@ -24,6 +24,8 @@ cust_city_state = cust_city_sp['customer_city'].value_counts()
 cust_df = pd.DataFrame(cust_city_state)
 cust_df.reset_index(inplace=True)
 
+customer_wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(cust_city_state)
+
 # membuat function untuk dipanggil nanti
 def state_count_visualization(df):
     plt.figure(figsize=(12, 8))
@@ -71,6 +73,14 @@ def state_view():
     Dari hasil visualisasi didapati bahwa **State of São Paulo** merupakan state dengan aktifitas transaksi terbanyak, dengan total sebanyak 3.878.927 (3 juta) transaksi. Langkah yang dapat dilakukan selanjutnya ialah dengan menjadikan state ini sebagai fokus pemasaran lebih mendalam. Karena state ini memiliki 40% aktifitas transaksi dari total 10.328.006 (10 juta) transaksi yang terjadi di Brazil.
     ''')
 
+def wordcloud_visualization(df):
+    plt.figure(figsize=(10, 5))
+    plt.imshow(df, interpolation='bilinear')
+    plt.axis('off')
+    plt.show()
+
+    return st.pyplot(plt)
+
 def wordcloud_view(df):
     st.subheader('Data Overview')
 
@@ -97,11 +107,12 @@ def wordcloud_view(df):
         
     st.write('Dengan data ini, kita dapat melihat bahwa Sao Paulo adalah kota dengan aktivitas transaksi tertinggi, diikuti oleh Santos dan Campinas. Sementara itu, kota-kota lainnya memiliki jumlah transaksi yang lebih rendah dibandingkan tiga kota teratas.')
 
-def wordcloud_visualization(df):
-    plt.figure(figsize=(10, 5))
-    plt.imshow(customer_wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    plt.show()
+    wordcloud_visualization(customer_wordcloud)
+
+    st.write('''
+    Analisis yang lebih mendalam menunjukan bahwa di antara kota-kota di State of São Paulo, kota Sao Paulo lah yang paling menonjol sebagai pusat utama aktifitas transaksi dengan total sebanyak 762.024 transaksi. Hal ini menunjukan bahwa 19,63% transaksi di State of São Paulo berasal dari kota Sao Paulo. Lalu di posisi selanjutnya terdapat kota Santos dengan total transaksi sebanyak 134.971 transaksi atau 3,48%.                 
+''')
+
 
 st.title("10122005 - Zulfi Fadilah Azhar")
 
@@ -111,7 +122,7 @@ st.write('''
     Dashboard ini berisi informasi penjualan dari negara Brazil. Dari negara tersebut dicari state mana yang memiliki penjualan tertinggi.
 ''')
 
-tab1, tab2, tab3 = st.tabs(["State Visualization", "WordCloud", "Owl"])
+tab1, tab2 = st.tabs(["State Visualization", "City in the State of São Paulo"])
 
 with tab1:
     state_view()
@@ -119,6 +130,4 @@ with tab1:
 with tab2:
    wordcloud_view(cust_df)
 
-with tab3:
-   st.header("An owl")
-   st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
+st.caption('Copyright (c) Zulfi Fadilah Azhar 2024')
