@@ -16,9 +16,15 @@ st.write("1. Mengidentifikasi metode pembayaran yang paling sering digunakan ole
 st.write("2. Menampilkan jumlah transaksi paling besar untuk setiap metode pembayaran")
 st.write("3. Mendeteksi data transaksi yang tidak sesuai atau bernilai null")
 
+<<<<<<< HEAD
+print("Business Understanding")
+print("1. Memahami Trend dan pola penggunaan metode pembayaran")
+print("2. Mengidentifikasi untuk meningkatkan keamanan dan efisiensi pembayaran")
+=======
 st.write("1. Business Understanding")
 st.write("2. Memahami Trend dan pola penggunaan metode pembayaran")
 st.write("3. Mengidentifikasi untuk meningkatkan keamanan dan efisiensi pembayaran")
+>>>>>>> b9cb75d9ba0386b57bcf78227d28854824c89070
 
 st.write("Langkah Bisnis")
 st.write("Menyeleksi efisiensi metode pembayaran yang paling sering di gunakan dan tidak atau jarang digunakan")
