@@ -13,9 +13,9 @@ print("1. Mengidentifikasi metode pembayaran yang paling sering digunakan oleh u
 print ("2. Menampilkan jumlah transaksi paling besar untuk setiap metode pembayaran")
 print("3. Mendeteksi data transaksi yang tidak sesuai atau bernilai null")
 
-print("1. Business Understanding")
-print("2. Memahami Trend dan pola penggunaan metode pembayaran")
-print("3. Mengidentifikasi untuk meningkatkan keamanan dan efisiensi pembayaran")
+print("Business Understanding")
+print("1. Memahami Trend dan pola penggunaan metode pembayaran")
+print("2. Mengidentifikasi untuk meningkatkan keamanan dan efisiensi pembayaran")
 
 print("Langkah Bisnis")
 print("Menyeleksi efisiensi metode pembayaran yang paling sering di gunakan dan tidak atau jarang digunakan")
